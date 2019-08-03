@@ -33,6 +33,7 @@ try:
     from keys.secret_key import SECRET_KEY
 except ImportError:
     from django.utils.crypto import get_random_string
+    print("BASE is ", BASE_DIR)
     with open(os.path.join(BASE_DIR, 'keys', 'secret_key.py'), 'w') as f:
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         f.write("SECRET_KEY = '{}'\n".format(get_random_string(50, chars)))
@@ -92,6 +93,7 @@ INSTALLED_APPS = [
     'cvat.apps.authentication',
     'cvat.apps.documentation',
     'cvat.apps.git',
+    'cvat.apps.saveannot',
     'django_rq',
     'compressor',
     'cacheops',
