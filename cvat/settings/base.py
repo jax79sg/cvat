@@ -104,6 +104,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_yasg',
+    'django_tables2',
+    'cvat.apps.downloadlist',
 ]
 
 REST_FRAMEWORK = {

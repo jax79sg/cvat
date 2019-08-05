@@ -39,6 +39,9 @@ def SaveAnnotView(request):
 
           #Insert code to generate the annotation for the selected tasks
           annotationgenerator.generateannotations(pickedtasks,pickedformat)
+          #return render(request,'downloadlist/downloadlist.html',{'form':downloadlistform})  
+          response = redirect('/downloadlist/')
+          return response          
        else:
           print('Form not valid!')       
     

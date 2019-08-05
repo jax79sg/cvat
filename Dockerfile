@@ -18,6 +18,8 @@ ARG USER
 ARG DJANGO_CONFIGURATION
 ENV DJANGO_CONFIGURATION=${DJANGO_CONFIGURATION}
 
+
+
 # Install necessary apt packages
 RUN apt-get update && \
     apt-get install -yq \
@@ -45,6 +47,14 @@ RUN apt-get update && \
     add-apt-repository --remove ppa:mc3man/gstffmpeg-keep -y && \
     add-apt-repository --remove ppa:mc3man/xerus-media -y && \
     rm -rf /var/lib/apt/lists/*
+
+#Setup timezone
+RUN apt-get update && \
+    echo 'Asia/Singapore' | tee /etc/timezone && \
+    apt install -y tzdata && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+	pip3 install pytz tzlocal
+
 
 # Add a non-root user
 ENV USER=${USER}
@@ -103,7 +113,7 @@ RUN if [ "$WITH_TESTS" = "yes" ]; then \
 COPY cvat/requirements/ /tmp/requirements/
 COPY supervisord.conf mod_wsgi.conf wait-for-it.sh manage.py ${HOME}/
 RUN pip3 install --no-cache-dir -r /tmp/requirements/${DJANGO_CONFIGURATION}.txt
-
+RUN pip3 install django-tables2
 # Install git application dependencies
 RUN apt-get update && \
     apt-get install -y ssh netcat-openbsd git curl zip  && \
@@ -150,5 +160,12 @@ USER ${USER}
 RUN mkdir data share media keys logs /tmp/supervisord
 RUN python3 manage.py collectstatic
 
+#Setup for VOC converter
+COPY utils/voc /home/django/cvat/utils/voc
+RUN ls ${HOME}/cvat/utils
+RUN cd ${HOME}/cvat/utils/voc && \
+    pip3 install -r requirements.txt
+    
+ 
 EXPOSE 8080 8443
 ENTRYPOINT ["/usr/bin/supervisord"]
