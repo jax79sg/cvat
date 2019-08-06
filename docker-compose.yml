@@ -51,7 +51,7 @@ services:
         WITH_TESTS: "no"
     environment:
       DJANGO_MODWSGI_EXTRA_ARGS: ""
-      ALLOWED_HOSTS: "jax79sg.hopto.org"
+      ALLOWED_HOSTS: "*"
     volumes:
       - cvat_data:/home/django/data
       - cvat_keys:/home/django/keys
