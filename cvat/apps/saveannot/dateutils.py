@@ -8,6 +8,7 @@ outputformat="%Y%m%d_%H%M"
 sampled="2019-08-05 08:52:49.193254+03:00"
 
 def converttolocalzone(inputtimestamp=None):
+    inputtimestamp=inputtimestamp.replace("T"," ")
     d=inputtimestamp
     if ":" == d[-3:-2]:
         d = d[:-3]+d[-2:]

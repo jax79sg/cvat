@@ -15,6 +15,7 @@ def download(request):
         downloads=generatedownloadlist.getDownloadList()
         Download.objects.bulk_create(downloads)
         table = DownloadTable(Download.objects.all())
+        table.paginate(page=request.GET.get('page', 1), per_page=15)
 
         return render(request, 'downloadlist/downloadlist.html', {
             'table': table

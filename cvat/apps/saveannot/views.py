@@ -13,6 +13,9 @@ import os
 from . import webapis
 import json
 from . import annotationgenerator
+from . import dateutils
+from django.utils.safestring import mark_safe
+
 
 @login_required
 def SaveAnnotView(request):
@@ -25,7 +28,7 @@ def SaveAnnotView(request):
         thisid=result['id']
         thisname=result['name']
         thisdate=result['updated_date']
-        annotationchoices.append((thisid,thisname+"\t"+thisdate))
+        annotationchoices.append((thisid,str(thisid)+'. '+thisname+"---- Updated:"+dateutils.converttolocalzone(thisdate)))
     
     if request.method == 'GET':
        annotlistform = AnnotationListForm(choices=annotationchoices)
