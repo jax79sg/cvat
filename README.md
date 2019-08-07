@@ -19,8 +19,8 @@ Download of annotations in VOC format available in http://jax79sg.hopto.org:8080
 2. Run following commands
 ```
 docker-compose -f docker-compose.internet.yml up --force-recreate -d
-docker-compose exec cvat python3 manage.py makemigrations downloadlist
-docker-compose exec cvat python3 manage.py migrate downloadlist
+docker-compose -f docker-compose.internet.yml exec cvat python3 manage.py makemigrations downloadlist
+docker-compose -f docker-compose.internet.yml exec cvat python3 manage.py migrate downloadlist
 
 ## Create a super user
 docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
