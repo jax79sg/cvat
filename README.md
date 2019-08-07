@@ -10,7 +10,9 @@ CVAT is free, online, interactive video and image annotation tool for computer v
 ![CVAT screenshot](cvat/apps/documentation/static/documentation/images/cvat.jpg)
 
 ## DH Documentation
-This is a fork of [opencv/cvat](https://github.com/opencv/cvat). This fork is on parallel maintanence with the original master, with exception to use cases that's particular to our requirements. All documentation outside of this section belongs to the master repository.
+This is a fork of [opencv/cvat](https://github.com/opencv/cvat). This fork is on parallel maintanence with the original master, with exception to use cases that's particular to our requirements. All documentation outside of this section belongs to the master repository.  
+A demo is available at http://jax79sg.hopto.org:8080.  
+Download of annotations in VOC format available in http://jax79sg.hopto.org:8080/downloadlist
 
 ### Installation with Internet access
 1. Download docker-compose.internet.yml from https://raw.githubusercontent.com/jax79sg/cvat/develop/docker-compose.internet.yml  
@@ -43,14 +45,14 @@ docker tag quay.io/jax79sg/cvat cvat:dh
 docker tag quay.io/jax79sg/redis redis:dh
 docker tag quay.io/jax79sg/postgres postgres:dh
 ```
-3. Tar the images (Skip this step if on Internet machine)
+3. Tar the images 
 ```
 docker save cvat:dh -o cvat.tar
 docker save redis:dh -o redis.tar
 docker save postgres:dh -o postgres.tar
 ```
 4. Download docker-compose.standalone.yml from https://raw.githubusercontent.com/jax79sg/cvat/develop/docker-compose.standalone.yml  
-5. Copy the following files into a portable HDD and transfer them to the standalone machine. (Skip this step if on Internet machine)
+5. Copy the following files into a portable HDD and transfer them to the standalone machine. 
 ```
 cvat.tar
 redis.tar
@@ -59,8 +61,8 @@ docker-compose.standalone.yml
 ```
 
 On standalone machine
-1. Copy the 4 files in step 5 into a empty folder. (Skip this step if on Internet machine)
-2. Load the images into Docker, then check if they are loaded (Skip this step if on Internet machine)
+1. Copy the 4 files in step 5 into a empty folder. 
+2. Load the images into Docker, then check if they are loaded 
 ```
 docker load -i postgres.tar
 docker load -i redis.tar
