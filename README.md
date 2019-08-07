@@ -73,8 +73,8 @@ docker images
 3. Install and run CVAT
 ```
 docker-compose -f docker-compose.standalone.yml up --force-recreate -d
-docker-compose exec cvat python3 manage.py makemigrations downloadlist
-docker-compose exec cvat python3 manage.py migrate downloadlist
+docker-compose -f docker-compose.standalone.yml exec cvat python3 manage.py makemigrations downloadlist
+docker-compose -f docker-compose.standalone.yml exec cvat python3 manage.py migrate downloadlist
 
 ## Create a super user
 docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
