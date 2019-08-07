@@ -19,7 +19,20 @@ def getListOfTasks():
         return None
 
 def getTaskAnnotationXML(taskid):
-    api_url=api_url_base+"tasks/"+taskid+"/annotations/task" + taskid+ "?action=download"
+    api_url=api_url_base+"tasks/"+taskid+"/annotations/" + taskid+ "?format=CVAT XML 1.1 for videos&action=download"
+    headers = {'Content-Type': 'application/json'}
+    response = requests.get(api_url, headers=headers,  auth=HTTPBasicAuth(user, password))
+    
+    while response.status_code == 202:
+        response = requests.get(api_url, headers=headers,  auth=HTTPBasicAuth(user, password))
+    if response.status_code == 200:
+        xmlString=response.content.decode('utf-8')
+        return minidom.parseString(xmlString), xmlString
+    else:
+        return None
+        
+def getTaskAnnotationXMLforImages(taskid):
+    api_url=api_url_base+"tasks/"+taskid+"/annotations/" + taskid+ "?format=CVAT XML 1.1 for images&action=download"
     headers = {'Content-Type': 'application/json'}
     response = requests.get(api_url, headers=headers,  auth=HTTPBasicAuth(user, password))
     

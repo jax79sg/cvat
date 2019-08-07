@@ -6,13 +6,24 @@
 const path = require('path');
 
 module.exports = {
+    target: 'web',
+    mode: 'production',
     devtool: 'source-map',
-    entry: './src/canvas.js',
+    entry: './src/canvas.ts',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'cvat-canvas.js',
+        library: 'canvas',
+        libraryTarget: 'window',
+    },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
-        compress: true,
+        compress: false,
         inline: true,
-        port: 9000,
+        port: 3000,
+    },
+    resolve: {
+        extensions: ['.ts', '.js', '.json'],
     },
     module: {
         rules: [{
@@ -23,6 +34,9 @@ module.exports = {
                     presets: [
                         [
                             '@babel/preset-env',
+                        ],
+                        [
+                            '@babel/typescript',
                         ],
                     ],
                     sourceType: 'unambiguous',

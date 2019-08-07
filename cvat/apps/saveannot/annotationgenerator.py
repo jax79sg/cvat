@@ -22,6 +22,8 @@ def generateannotations(taskList=None, annotFormat='voc'):
       taskannotationxmlobj,xmlstring=webapis.getTaskAnnotationXML(task)
       mode = taskannotationxmlobj.getElementsByTagName('mode')[0].firstChild.nodeValue.lower()   
       print("[AnnotaionGen] Mode: {}".format(mode))
+      if mode=='annotation':
+         taskannotationxmlobj,xmlstring=webapis.getTaskAnnotationXMLforImages(task)
       
       folderpath=basepath+task+'/.upload/'
       print("[AnnotaionGen] folderpath: {}".format(folderpath))
@@ -39,16 +41,19 @@ def generateannotations(taskList=None, annotFormat='voc'):
          if (os.path.isdir(framesFolder)) == False:
             print("[AnnotaionGen] Folder does not exist, creating now")
             subprocess.call(['mkdir', framesFolder])
-            subprocess.call(['ffmpeg', '-i', sourcevideo, '-vsync','0','-start_number','0', framesFolder+'/'+task+'_%08d.jpg'])
+            videopath=folderpath+sourcevideo
+            subprocess.call(['ffmpeg', '-i', videopath, '-vsync','0','-start_number','0', framesFolder+'/'+task+'_%08d.jpg'])
       elif mode=='annotation':
          framesFolder=folderpath+'JPEGImages'
          if (os.path.isdir(framesFolder)) == False:
             print("[AnnotaionGen] Folder does not exist, creating now")
             subprocess.call(['mkdir', framesFolder])
-            imgfolder=folderpath+'*.jpg'
-            subprocess.call(['cp',imgfolder, framesFolder])
-            imgfolder=folderpath+'*.png'
-            subprocess.call(['cp',imgfolder, framesFolder])
+         imgfolder=folderpath+'*.jpg'
+         print("[Annot] cp -v "+imgfolder+ " " + framesFolder)
+         subprocess.call("cp -v "+imgfolder+ " " + framesFolder, shell=True)
+         imgfolder=folderpath+'*.png'
+         print("[Annot] cp -v "+imgfolder+ " " + framesFolder)
+         subprocess.call("cp -v "+imgfolder+ " " + framesFolder, shell=True)
       taskupdateddate = taskannotationxmlobj.getElementsByTagName('updated')[0].firstChild.nodeValue
       taskupdateddate=dateutils.converttolocalzone(taskupdateddate)
       
