@@ -14,7 +14,7 @@ This is a fork of [opencv/cvat](https://github.com/opencv/cvat). This fork is on
 A demo is available at http://jax79sg.hopto.org:8080.  
 Download of annotations in VOC format available in http://jax79sg.hopto.org:8080/downloadlist
 
-### Installation with Internet access
+### Installation (Prebuilt) with Internet access
 1. Download docker-compose.internet.yml from https://raw.githubusercontent.com/jax79sg/cvat/develop/docker-compose.internet.yml  
 2. Run following commands
 ```
@@ -28,7 +28,7 @@ docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
 4. Access http://youripaddress:8080 on your Chrome browser.  
 
 
-### Installation without Internet
+### Installation (Prebuilt) without Internet
 You will need to perform some steps on an internet connected machine before you transfer it to the standalone machine.    
 
 
@@ -80,6 +80,9 @@ docker-compose exec cvat python3 manage.py migrate downloadlist
 docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
 ```
 4. Access http://localhost:8080 on your Chrome browser.  
+
+### Installation re-build
+Please refer to OEM documentation below. 
 
 ## Documentation
 
