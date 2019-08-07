@@ -9,6 +9,76 @@ CVAT is free, online, interactive video and image annotation tool for computer v
 
 ![CVAT screenshot](cvat/apps/documentation/static/documentation/images/cvat.jpg)
 
+## DH Documentation
+This is a fork of [opencv/cvat](https://github.com/opencv/cvat). This fork is on parallel maintanence with the original master, with exception to use cases that's particular to our requirements. All documentation outside of this section belongs to the master repository.
+
+### Installation with Internet access
+1. Download docker-compose.internet.yml from https://raw.githubusercontent.com/jax79sg/cvat/develop/docker-compose.internet.yml  
+2. Run following commands
+```
+docker-compose -f docker-compose.internet.yml up --force-recreate -d
+docker-compose exec cvat python3 manage.py makemigrations downloadlist
+docker-compose exec cvat python3 manage.py migrate downloadlist
+
+## Create a super user
+docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
+```
+4. Access http://youripaddress:8080 on your Chrome browser.  
+
+
+### Installation without Internet
+You will need to perform some steps on an internet connected machine before you transfer it to the standalone machine.    
+
+
+On the Internet machine
+1. Pull the pre-made images
+```
+docker pull quay.io/jax79sg/cvat
+docker pull quay.io/jax79sg/redis
+docker pull quay.io/jax79sg/postgres
+```
+2. Tag the images to local version
+```
+docker tag quay.io/jax79sg/cvat cvat:dh
+docker tag quay.io/jax79sg/redis redis:dh
+docker tag quay.io/jax79sg/postgres postgres:dh
+```
+3. Tar the images (Skip this step if on Internet machine)
+```
+docker save cvat:dh -o cvat.tar
+docker save redis:dh -o redis.tar
+docker save postgres:dh -o postgres.tar
+```
+4. Download docker-compose.standalone.yml from https://raw.githubusercontent.com/jax79sg/cvat/develop/docker-compose.standalone.yml  
+5. Copy the following files into a portable HDD and transfer them to the standalone machine. (Skip this step if on Internet machine)
+```
+cvat.tar
+redis.tar
+postgres.tar
+docker-compose.standalone.yml
+```
+
+On standalone machine
+1. Copy the 4 files in step 5 into a empty folder. (Skip this step if on Internet machine)
+2. Load the images into Docker, then check if they are loaded (Skip this step if on Internet machine)
+```
+docker load -i postgres.tar
+docker load -i redis.tar
+docker load -i cvat.tar
+
+docker images
+```
+3. Install and run CVAT
+```
+docker-compose -f docker-compose.standalone.yml up --force-recreate -d
+docker-compose exec cvat python3 manage.py makemigrations downloadlist
+docker-compose exec cvat python3 manage.py migrate downloadlist
+
+## Create a super user
+docker exec -it cvat bash -ic 'python3 ~/manage.py createsuperuser'
+```
+4. Access http://localhost:8080 on your Chrome browser.  
+
 ## Documentation
 
 - [Installation guide](cvat/apps/documentation/installation.md)
